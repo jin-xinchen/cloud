@@ -1,0 +1,444 @@
+
+https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
+
+#8 消费者cloud-consumer-order80
+
+https://www.youtube.com/watch?v=8d6BvCZxPwQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=12
+##3.1 建module
+##3.2 改POM
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cloud20210413</artifactId>
+        <groupId>com.jin.springcloud</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cloud-provider-payment8001</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
+##3.3 写YML
+server:
+  port: 8081
+
+spring:
+  application:
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/db2021?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: Tw123456
+
+  datasource2:
+    url: jdbc:mysql://localhost:3306/sp_mall?useSSL=false&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: sQdAAj8eHN8yCXGn
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: jin.springcloud.entities    #所有entity别名类所在包
+
+
+##3.4 主启动
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class PaymentMain8001 {
+    public static void main(String[] args){
+        SpringApplication.run(PaymentMain8001.class, args);
+    }
+}
+##3.5 业务类
+
+
+#18 Nacos- Naming Configuration Service
+Nacos = Eureka+Config+Bus
+github.com/alibaba/Nacos
+https://github.com/alibaba/nacos/releases/tag/1.4.1
+nacos.io/zh-cn/docs/cluster-mode-quick-start.html
+
+
+https://www.youtube.com/watch?v=FMpIM5yS-SY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=96
+https://www.youtube.com/watch?v=cwDUUhr4sOU&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=97
+
+#17 Spring Cloud Alibaba
+https://github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md
+https://github.com/alibaba/spring-cloud-alibaba/
+官网的参考手册：
+https://spring-cloud-alibaba-group.github.io/github-pages/hoxton/en-us/index.html
+
+#16 Spring Stream
+https://www.youtube.com/watch?v=_x6eKocc0_8&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=86 
+RabbitMQ有exchange, Kafka有Topic和Partitions区分；
+Binder
+
+#7 entities,dao,service,mapper
+https://www.youtube.com/watch?v=vaTDClYcjIc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=11
+##7.1 create SQL; 
+#6高并发高流量高可靠性
+1000 QPS,  1百万 QPS;https://www.youtube.com/watch?v=SmkjJ7SQKBo
+www.jianshu.com/p/251b76643d47 RocketMQ
+High Concurrency and large flow, High Avaliablility： https://www.youtube.com/watch?v=SmkjJ7SQKBo  统一Id
+#5. 热部署在Intellj中
+##5.1 Adding devtools to your project
+##5.2 Adding plugin to your pom.xml
+##5.3 Enabling automatic build
+##5.4 Update the value of
+##5.5 重启IDEA
+##5.1 Adding devtools to your project
+<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+##5.2 Adding plugin to your pom.xml （父工程中的pom.xml）
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+            <exclude>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-configuration-processor</artifactId>
+            </exclude>
+          </excludes>
+          <fork>true</fork>
+          <addResources>true</addResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+##5.3 Enabling automatic build
+ File->Settings->Build,Execution,Deployment->Compiler->选上4个选项：
+     Automatically show first error in editor; Display notification on build completion; Build project automatically;Compile independent mdules in parallel;
+
+##5.4 Update the value of
+ 同时按下：ctrl+shift+Alt+/ and search for the registry. In the Registry, enable:
+  compiler.automake.allow.when.app.running and actionSystem.assertFocusAccessFromEdt.
+
+##5.5 重启IDEA
+
+#4. 
+##4.3 45.76.1.198:3306/root,schema:tivdb
+
+##4.2 install docker on Kali
+->sudo apt update
+->curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+->sudo apt-get install gnupg
+->echo 'deb [arch=amd64] https://download.docker.com/linux/debian buster stable' | sudo tee /etc/apt/sources.list.d/docker.list
+->sudo apt update
+->sudo apt remove docker docker-engine docker.io
+->sudo apt install docker-ce -y
+->sudo systemctl start docker 或者 sudo /etc/init.d/docker start 
+或者sudo service docker start
+
+What you have to do is, run the linux subsystem as administrator by right clicking from start menu.
+This will solve the issue and sudo service command will execute as it should as a sudo user.
+
+systemd 
+##4.1 install yum
+->wget http://yum.baseurl.org/download/3.4/yum-3.4.3.tar.gz
+->tar xvf yum-3.4.3.tar.gz
+->cd yum-3.4.3
+在Kali上没有成功
+->sudo apt-get install yum
+   sudo yum install docker
+sudo apt install yum
+yum check-update
+yum update
+yum clean all
+
+#3.建微服务模块
+##3.1 建module
+##3.2 改POM
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cloud20210413</artifactId>
+        <groupId>com.jin.springcloud</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cloud-provider-payment8001</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
+##3.3 写YML
+server:
+  port: 8081
+
+spring:
+  application:
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/db2021?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: Tw123456
+
+  datasource2:
+    url: jdbc:mysql://localhost:3306/sp_mall?useSSL=false&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: sQdAAj8eHN8yCXGn
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: jin.springcloud.entities    #所有entity别名类所在包
+
+
+##3.4 主启动
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class PaymentMain8001 {
+    public static void main(String[] args){
+        SpringApplication.run(PaymentMain8001.class, args);
+    }
+}
+##3.5 业务类
+### cloud-provider-payment8001微服务提供者支付Module模块
+###   cloud-consumer-order80微服务消费者订单Module模块
+CREATE TABLE test_payment(
+id bigint(20) not null PRIMARY KEY auto_increment,
+serial varchar(200) DEFAULT ''
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+Create table 'testpayment'(
+'id' bigint(20) not null auto_increment comment 'id',
+'serial' varchar(200) DEFAULT '',
+PRIMARY KEY('id')
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+
+#2.pom 父工程的POM
+<packaging>pom</packaging>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+<!-- $Id: pom.xml 642118 2008-03-28 08:04:16Z reinhard $ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>cloud20210413</name>
+  <groupId>com.jin.springcloud</groupId>
+  <artifactId>cloud20210413</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <!-- Version -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <junit.version>4.12</junit.version>
+    <log4j.version>1.2.17</log4j.version>
+    <lombok.version>1.16.18</lombok.version>
+    <mysql.version>5.1.47</mysql.version>
+    <druid.version>1.2.5</druid.version>
+<!--    <mybatis.spring.boot.version1>1.3.0</mybatis.spring.boot.version1>-->
+    <mybatis.spring.boot.version>2.1.4</mybatis.spring.boot.version>
+  </properties>
+  <!-- sub module: in sub module, do not need set groupId and version -->
+  <dependencyManagement>
+    <dependencies>
+      <!--spring boot 2.4.4-->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>2.4.4</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!--spring cloud-->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>2020.0.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!--spring cloud alibaba-->
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+        <version>2.2.5.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!--mysql-->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>${druid.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>${mybatis.spring.boot.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
+---------------------------------------------------------
+#1.搭建工作空间workspace
+##5.File Type过滤
+  
+##4.Java Compilerjava编译版本选8
+  File->Build,Execution,Deployment->Compiler->Java Compiler->Module,Target bytecode version = 8;
+
+##3.注解生效激活
+  File->Build,Execution,Deployment->Compiler->Annotation Processors->Enable annotation processing(checked)
+
+##2.Editor编辑器编码
+ File->Settings->Editor->File Encodings -》 Global Encoding: UTF-8; Project Encoding: UTF-8; Default encoding for properties files: UTF-8; Transparent native-to-ascii conversion (checked)
+
+##1.create new project
+maven->create from archetype->maven-archetype-site
+manve home path:C:/Users/JinTweebaa/.m2/wrapper/dists/apache-maven-3.6.3-bin/1iopthnavndlasol9gbrbg6bf2/apache-maven-3.6.3
+User setting file:c:\users\jintweebaa\.m2\setting.xml
+Local respository:c:\users\jintweebaa\.m2\repository
+
+----------------------------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=9
+
+tools: Kali Linux
+
