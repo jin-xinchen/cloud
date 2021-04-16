@@ -18,6 +18,7 @@ public class OrderController {
     @Resource
     private RestTemplate restTemplate;
 
+    //http://localhost/consumer/payment/create?serial=1010101
     @GetMapping("/consumer/payment/create")
     public CommonResult<Payment> create(Payment payment){
         String url = getURL_payment();

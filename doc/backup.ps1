@@ -7,7 +7,10 @@ Copy-Item C:\Users\JinTweebaa\Documents\tweebaa\cloud\spring-cloud-log.txt C:\Us
 
 Copy-Item C:\Users\JinTweebaa\Documents\tweebaa\cloud\test-sql.sql C:\Users\JinTweebaa\Documents\tweebaa\cloud\cloud202104github\cloud\doc\ -recurse -Force
 
-mkdir C:\Users\JinTweebaa\Documents\tweebaa\cloud\cloud202104github\cloud\doc\
+# done
+# mkdir C:\Users\JinTweebaa\Documents\tweebaa\cloud\cloud202104github\cloud\doc\
+
+cd C:/Users/JinTweebaa/Documents/tweebaa/cloud/cloud202104github/cloud
 
 git status
 git add .
