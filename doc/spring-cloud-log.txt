@@ -1,13 +1,47 @@
 
 https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
+# 10 cloud-eureka-server7001 
+# 10.3  clustor Eureka
+    ** c:\Windows\System32\drivers\etc\hosts **
+     127.0.0.1:7001 eureka7001.com
+     127.0.0.1:7002 eureka7002.com 
+# 10.2 @EnableEurekaClient
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+eureka:
+  client:
+    register-with-eureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka
 
-#8 消费者cloud-consumer-order80
+# 10.1 @EnableEurekaServer single server.
+       pom.xml 
+       <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <!--        <version>3.0.3</version>-->
+        </dependency>
+   application.yml
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+# 9 Code refactoring: cloud-api-commons
+# 8 消费者cloud-consumer-order80
 https://www.youtube.com/watch?v=8d6BvCZxPwQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=12
-##8.1 建module
-##8.2 改POM
-##8.3 写YML
-##8.4 主启动
-##8.5 业务类
+## 8.1 建module
+## 8.2 改POM
+## 8.3 写YML
+## 8.4 主启动
+## 8.5 业务类
 RestTemplate
 @RequestBody Payment payment
 workspace.xml RunDashboard;

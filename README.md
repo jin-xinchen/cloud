@@ -61,5 +61,6 @@
 ## 2.4 File Type 
   >
 
-tools: https ://md.openwrite.cn
+>tools: https ://md.openwrite.cn 
+>>**c:\Windows\System32\drivers\etc\hosts**
 
