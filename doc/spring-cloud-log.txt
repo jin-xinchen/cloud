@@ -1,6 +1,7 @@
 
 https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
 # 10 cloud-eureka-server7001 
+# 10.4 @LoadBalanced and "http://CLOUD-PAYMENT-SERVICE"
 # 10.3  clustor Eureka
     ** c:\Windows\System32\drivers\etc\hosts **
      127.0.0.1:7001 eureka7001.com
@@ -381,3 +382,4 @@ https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_
 
 tools: Kali Linux
 
+Thank Zhou Yang of Shang Gui Gu
