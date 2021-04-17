@@ -1,5 +1,21 @@
 
 https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
+# 11 @EnableDiscoveryClient
+## 11.1 import org.springframework.cloud.client.discovery.DiscoveryClient;
+## 11.2 **Red Safe**  eureka.server.enable-self-preservation 
+>EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY'RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.
+>**In Eureka Server**
+>>*default:* eureka.server.enable-self-preservation=true
+>>eureka.server.eviction-interval-timer-in-ms: 2000
+>>>    server:
+>>>       enable-self-preservation: false
+>>>       eviction-interval-timer-in-ms: 2000
+>>> *THE SELF PRESERVATION MODE IS TURNED OFF. THIS MAY NOT PROTECT INSTANCE EXPIRY IN CASE OF NETWORK/OTHER PROBLEMS.*
+
+>**In Service server**
+>>instance.lease-renewal-interval-in-seconds: 1 #default 30
+>>instance.lease-expiration-duration-in-seconds: 2 #default 90
+## 11.3 https://github.com/Netflix/eureka/wiki
 # 10 cloud-eureka-server7001 
 # 10.4 @LoadBalanced and "http://CLOUD-PAYMENT-SERVICE"
     spring:
