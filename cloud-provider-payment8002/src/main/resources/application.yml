@@ -23,6 +23,9 @@ mybatis:
   type-aliases-package: jin.springcloud.entities    #所有entity别名类所在包
 
 eureka:
+  instance:
+    instance-id: payment8002
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetchRegistry: true

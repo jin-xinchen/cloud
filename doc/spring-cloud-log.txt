@@ -2,6 +2,13 @@
 https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
 # 10 cloud-eureka-server7001 
 # 10.4 @LoadBalanced and "http://CLOUD-PAYMENT-SERVICE"
+    spring:
+      application:
+        name: cloud-payment-service  # = CLOUD-PAYMENT-SERVICE
+ *@LoadBalanced must be with using 'http://spring.application.name'*
+ *instance.instance-id*: payment8001, *instance-id* showing in Status of Eureka dashboard
+ *instance.prefer-ip-address*: true  #default true
+
 # 10.3  clustor Eureka
     ** c:\Windows\System32\drivers\etc\hosts **
      127.0.0.1:7001 eureka7001.com
