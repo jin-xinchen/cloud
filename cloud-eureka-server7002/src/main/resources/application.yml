@@ -12,6 +12,7 @@ eureka:
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 2000
+
 # single server
 #eureka:
 #  instance:

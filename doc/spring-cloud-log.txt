@@ -1,7 +1,25 @@
 
-https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
-# 11 @EnableDiscoveryClient
+# 12 cloud-provider-payment8004  zookeepr
+  spring.cloud.zookeeper.connect-string=192.168.101.166:2161
+    cloud:
+      zookeeper:
+        connect-string: 192.168.101.166:2161
+# 11 @EnableDiscoveryClient with @SpringBootApplication
 ## 11.1 import org.springframework.cloud.client.discovery.DiscoveryClient;
+    @GetMapping(value="/payment/discovery")
+    public Object discovery(){
+        List<String> services = discoveryClient.getServices();
+        for(String e:services)
+        {
+            log.info("******element:"+e);
+        }
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        for(ServiceInstance i: instances){
+            log.info(i.getServiceId()+"\t"+i.getHost()+"\t"+i.getPort()+"\t"+i.getUri());
+        }
+        //        var a = new Object(services,instances);
+        return this.discoveryClient;
+    }
 ## 11.2 **Red Safe**  eureka.server.enable-self-preservation 
 >EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY'RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.
 >**In Eureka Server**
@@ -17,7 +35,7 @@ https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMows
 >>instance.lease-expiration-duration-in-seconds: 2 #default 90
 ## 11.3 https://github.com/Netflix/eureka/wiki
 # 10 cloud-eureka-server7001 
-# 10.4 @LoadBalanced and "http://CLOUD-PAYMENT-SERVICE"
+# 10.4 @LoadBalanced on RestTemplate and "http://CLOUD-PAYMENT-SERVICE" matched spring.application.name=cloud-payment-service
     spring:
       application:
         name: cloud-payment-service  # = CLOUD-PAYMENT-SERVICE
@@ -401,7 +419,7 @@ User setting file:c:\users\jintweebaa\.m2\setting.xml
 Local respository:c:\users\jintweebaa\.m2\repository
 
 ----------------------------------------------------------------------------------------------------
-https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=9
+
 
 tools: Kali Linux
 
