@@ -1,5 +1,14 @@
-
-# 12 cloud-provider-payment8004  zookeepr
+# 13 cloud-consumerzk-order80  zookeepr
+    @Configuration
+    public class ApplicationContextConfig
+    {
+        @Bean
+        @LoadBalanced
+        public RestTemplate getRestTemplate(){
+            return new RestTemplate();
+        }
+    } 
+# 12 cloud-provider-payment8004 zookeepr
   spring.cloud.zookeeper.connect-string=192.168.101.166:2161
     cloud:
       zookeeper:
@@ -419,7 +428,10 @@ User setting file:c:\users\jintweebaa\.m2\setting.xml
 Local respository:c:\users\jintweebaa\.m2\repository
 
 ----------------------------------------------------------------------------------------------------
-
+https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=9
+https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
+https://www.youtube.com/watch?v=WeXWCwD4oX4&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=30
+https://www.youtube.com/watch?v=_1Y41mdkOSY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=40 轮询 负载平衡 Ribbon
 
 tools: Kali Linux
 
