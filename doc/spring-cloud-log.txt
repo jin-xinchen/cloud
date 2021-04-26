@@ -1,5 +1,37 @@
-# 15 github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md
+# 16  
+     Nacos Naming Configuration  Service
+     Nacos = Eureka + Config+Bus
+     https://github.com/alibaba/Nacos   nacos.io
+     start: /bin/startup.cmd
+     localhost:8848/nacos/#/login    username: nacos/nacos
+ 
+ ## 16.1 cloudalibaba-provider-payment9001
+     <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+        <version>2.2.5.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+       
+      
 
+<dependency>
+    <groupId>com.alibaba.cloud</groupId>
+    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+</dependency>
+
+
+server.port=8081
+spring.application.name=nacos-provider
+spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848
+management.endpoints.web.exposure.include=*
+
+cloudalibaba-consumer-nacos-order83
+
+# 15 github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md
+     sping-cloud-alibaba-group.github.io/github-pages/greenwich/spring-cloud-alibaba.html
+ 
 # 14 consul.io/intro/index.html  thank zhong yang.
   ## 14.1 springcloud.cc/spring-cloud-consul.html 
      learn.hashicorp.com/consul/getting-started/install.html
@@ -442,10 +474,7 @@ User setting file:c:\users\jintweebaa\.m2\setting.xml
 Local respository:c:\users\jintweebaa\.m2\repository
 
 ----------------------------------------------------------------------------------------------------
-https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=9
-https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
-https://www.youtube.com/watch?v=TveD81ACbyw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=31
-https://www.youtube.com/watch?v=_1Y41mdkOSY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=40 轮询 负载平衡 Ribbon
+
 
 tools: Kali Linux
 
