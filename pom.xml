@@ -40,6 +40,7 @@
       <module>cloud-providerconsul-payment8006</module>
     <module>cloud-consumerconsul-order80</module>
     <module>cloudalibaba-provider-payment9001</module>
+    <module>cloudalibaba-provider-payment9002</module>
   </modules>
   <!-- Version -->
   <properties>
