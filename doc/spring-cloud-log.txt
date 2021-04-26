@@ -1,3 +1,17 @@
+# 15 github.com/alibaba/spring-cloud-alibaba/blob/master/README-zh.md
+
+# 14 consul.io/intro/index.html  thank zhong yang.
+  ## 14.1 springcloud.cc/spring-cloud-consul.html 
+     learn.hashicorp.com/consul/getting-started/install.html
+     consul --version
+     consul agent -dev  //run and then, will generate a service localhost:8500
+
+  ## 14.2 cloud-providerconsul-payment8006, cloud-consumerconsul-order80
+      <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+      </dependency>
+
 # 13 cloud-consumerzk-order80  zookeepr
     @Configuration
     public class ApplicationContextConfig
@@ -430,7 +444,7 @@ Local respository:c:\users\jintweebaa\.m2\repository
 ----------------------------------------------------------------------------------------------------
 https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=9
 https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
-https://www.youtube.com/watch?v=WeXWCwD4oX4&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=30
+https://www.youtube.com/watch?v=TveD81ACbyw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=31
 https://www.youtube.com/watch?v=_1Y41mdkOSY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=40 轮询 负载平衡 Ribbon
 
 tools: Kali Linux
