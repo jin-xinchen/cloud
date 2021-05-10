@@ -1,5 +1,121 @@
-# 18 github.com/alibaba/nacos/blob/develop/config/pom.xml
+# 20 Sentinel
+    ToDo
+# 19 Nacos clustor & Persistent Storage by nacos-mysql.sql
+   ##19.1 layout
+    Require -> Nginx01...Nginx06 -> Nacos01...Nacos03 -> Mysql Clustor(Master&Slave)    
+    
+   Apache Derby is single database. https://db.apache.org/derby/
+   github.com/alibaba/nacos/blob/develop/config/pom.xml
+   nacos-mysql.sql in nacos-server-1.1\nacos\conf folder.
 
+   >nacos.io/zh-cn/docs/cluster-mode-quick-start.html
+   >nacos.io/zh-cn/docs/deployment.html
+   >watch?v=b_X_s-qQs1w&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=106
+   >watch?v=2QmCPOUyGAU&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=108
+
+ ## 19.2
+   ### USE nacos_config
+   ### CREATE DATABASE nacos_config
+
+   spring.datasource.platform=mysql
+   db.num=1
+   db.url.0=jdbc:mysql://11.162.196.16:3306/nacos_devtest?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true
+   db.user=nacos_devtest
+   db.password=youdontknow
+
+  ## 19.3 
+    watch?v=2QmCPOUyGAU&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=108
+    >opt/nacos-server-1.1.4.tar.gz
+    >tar - zxvf nacos-server-1.1.4.tar.gz
+    >nacos
+    > cp - r nacos /mynacos
+    > cd mynacos
+
+    three Nacos Nodes: 3333,4444,5555;
+    Modify startup shell script: startup -p 3333
+  ##19.4 Nacos Setup  /watch?v=5w6SAFLCsws&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=109
+
+    > cd /mynacos/nacos/conf; >ll; > nacos-mysql.sql
+    > cp appliction.properties.example application.properties ; > pwd;  /mynacos/nacos/conf
+    ### In application.properties in /mynacos/nacos/conf
+     >>spring.datasource.platform=mysql
+     >>db.num=1
+     >>db.url.0=jdbc:mysql://11.162.196.16:3306/nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true
+     >>db.user=nacos_devtest
+     >>db.password=youdontknow
+    > !wq
+    ###   
+    mysql>show database;   // nacos_config
+    mysql>use nacos_config
+    mysql>show tables;
+    ### >cp cluster.conf.example cluster.conf
+     > vim /mynacos/nacos/conf/cluster.conf
+     >> 192.168.111.144:3333  
+     >> 192.168.111.144:4444
+     >> 192.168.111.144:5555
+    #### IP must be know by hostname -i
+    > hostname -i 
+    >》 fe80::c7a1:aadb:1249:6c11%ens33 192.168.11.144 192.168.122.1 
+    ### Modify ./startup.sh to run ./startup -p 3333
+    > cp startup.sh startup.sh.bk
+    >vim /mynacos/nacos/bin/startup.sh
+    >>while getopts ":m:f:s" opt -> while getopts: ":m:f:s:p:" opt
+    >> p)
+          PORT=$OPTARG;;
+       ?)
+     #### nohup $JAVA ${JAVA_OPT} nacos.nacos >>${BASE_DIR}/logs/start.out 2>&1 &
+     #### nohup $JAVA -Dserver.port=${PORT} ${JAVA_OPT} nacos.nacos >>${BASE_DIR}/logs/start.out 2>&1 &
+    wq!
+    >./startup -p 3333
+ 
+ ## 19.5 Nginx Setup
+    /watch?v=FwEQB3bq2_M&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=110
+   ###
+    > cp /usr/local/nginx/conf/nginx.conf nginx.conf.bk
+    > vim /usr/local/nginx/conf/nginx.conf
+    >> #gzip on;
+    >> upstream cluster{
+         server 127.0.0.1:3333;
+         server 127.0.0.1:4444;
+         server 127.0.0.1:5555;
+       }
+       server{
+          listen   1111;
+          ...
+          location / {
+             #root html;
+             #index index.html index.htm;
+             proxy_pass http://cluster;
+          }
+       } 
+    ###> ./mynacos/nacos/bin/startup.sh -p 3333
+      > ./mynacos/nacos/bin/startup.sh -p 4444 
+      > ./mynacos/nacos/bin/startup.sh -p 5555  
+     bin> ps -ef|grep nacos|grep -v grep |wc -l;
+     bin> 3
+     >/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf  ;;
+     > ps -ef|grep nginx
+
+    ### /watch?v=FwEQB3bq2_M&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=110
+    >test：http://192.168.111.144:1111/nacos/#login
+    mysql> select * from config_info;
+
+--------------------------------------------------
+               (Nacos Client:9002)
+                     |
+               (NGINX:1111)
+        |            |                     |
+(Nacos Server1:3333) (Nacos Server2:4444)  (Nacos Server3:5555)
+             \       |      /
+               (Mysql : 3306)
+--------------------------------------------------
+
+# 18 github.com/alibaba/nacos/blob/develop/config/pom.xml
+    > group: TEST_GROUP
+    > group: DEV_GROUP
+    >namespace: 7df0f5a-6a53-4785-9686-dd460158e5d4
+    >If we do not set up namespace, config source is "public" namespace.
+    >namespace: 7df0f5a-6a53-4785-9686-dd460158e5d4  # It is namespace ID.
 # 17 Nacos config  https://github.com/alibaba/spring-cloud-alibaba/tree/master/spring-cloud-alibaba-examples
      ##17.1
      cloudalibaba-config-nacos-client3377
@@ -30,10 +146,13 @@
      Group: DEFAULT_GROUP
      Configuration Content: config: 
                               info: v3       
+    ##@RefreshScope & Data ID = ${spring:application:name}-${spring:profiles:active}.yaml
 
 # 16 Nacos Naming Configuration  Service
      Nacos = Eureka + Config+Bus
      https://github.com/alibaba/Nacos   nacos.io
+     https://github.com/alibaba/Nacos/releases
+
      start: /bin/startup.cmd
      localhost:8848/nacos/#/login    username: nacos/nacos
  
@@ -541,6 +660,8 @@ https://www.youtube.com/watch?v=AOepp1XLSR0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMows
 https://www.youtube.com/watch?v=TveD81ACbyw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=31
 https://www.youtube.com/watch?v=_1Y41mdkOSY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=40 轮询 负载平衡 Ribbon
 https://www.youtube.com/watch?v=Kkuqnkl9zOo&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=101
+https://www.youtube.com/watch?v=qjOgz6K_Ums&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=107
+namespace: 7df0f5a-6a53-4785-9686-dd460158e5d4
 tools: Kali Linux
 
 Thank Zhou Yang of Shang Gui Gu
