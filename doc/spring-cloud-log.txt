@@ -1,5 +1,69 @@
-# 20 Sentinel
-    ToDo
+# 20 Sentinel - https://github.com/alibaba/Sentinel
+   ##20.1 Sentinel vs Hystrix
+     1.moniter system; 
+     2.Flow control, rate control, service fuse, server degradation;流控，速率控制，服务熔断，服务器降级;
+
+    /watch?v=AUVC8q4m184&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=111
+   ##20.2 install and run    
+   >java -jar sentinel-dashboard-1.7.0.jar
+   >localhost:8080
+   >login: sentinel/sentinel
+   
+   ##20.3 project  cloudalibaba-sentinel-service8401
+    1.register this service into Nacos9948;
+    2.cloudalibaba-sentinel-service8401 (POM,YML,Main,FlowLimitController)
+    3. setup Sentinel8080
+    4. setup 8401
+    5. Sentinel8080 dashboard
+    watch?v=kwfrr6kA9yI&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=113
+    pom.xml
+    <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+    <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+    </dependency>
+    <!-- 持久化用到 -->
+    <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+    </dependency>
+    <!-- openfeign -->
+    <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+    <!-- SpringBoot Web + actuator -->
+    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+     application.yml
+     server: port: 8401
+     spring: application: name: cloudalibaba-sentinel-service
+     spring: cloud:nacos:discovery:server-addr: localhost:8848
+     spring: cloud:sentinel:transport:dashboard:localhost:8080
+     spring: cloud:sentinel:transport: port: 8719 //default8719
+     management:endpoints:web:exposure:include: '*'
+ 
+     java -jar sentinel-dashboard-1.7.0.jar
+     1.Blocked by Sentinel (flow limiting) QPS->单机阈值（每秒访问次数）->直接->快速失败；
+     2.线程数->单机阈值（每秒访问次数）->直接->快速失败； 限制内部处理的工作线程数；
+     watch?v=lJr_MKFT9OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=116
+     3. 关联 A调用B，B被限制，A也就被限制；
+     /watch?v=EKjVFkMPb2w&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=117
+
+
+
+  
+
+
 # 19 Nacos clustor & Persistent Storage by nacos-mysql.sql
    ##19.1 layout
     Require -> Nginx01...Nginx06 -> Nacos01...Nacos03 -> Mysql Clustor(Master&Slave)    
@@ -147,6 +211,7 @@
      Configuration Content: config: 
                               info: v3       
     ##@RefreshScope & Data ID = ${spring:application:name}-${spring:profiles:active}.yaml
+    localhost:8848  nacos/nacos
 
 # 16 Nacos Naming Configuration  Service
      Nacos = Eureka + Config+Bus
