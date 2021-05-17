@@ -1,4 +1,5 @@
 # 20 Sentinel - https://github.com/alibaba/Sentinel
+   com.alibaba.csp.sentinel.slots.block.flow.controller.RateLimiter
    ##20.1 Sentinel vs Hystrix
      1.moniter system; 
      2.Flow control, rate control, service fuse, server degradation;流控，速率控制，服务熔断，服务器降级;
@@ -53,15 +54,44 @@
      management:endpoints:web:exposure:include: '*'
  
      java -jar sentinel-dashboard-1.7.0.jar
-     1.Blocked by Sentinel (flow limiting) QPS->单机阈值（每秒访问次数）->直接->快速失败；
+     流控模式
+     1.Blocked by Sentinel (flow limiting) QPS->单机阈值（每秒访问次数）->直接->快速失败； 
      2.线程数->单机阈值（每秒访问次数）->直接->快速失败； 限制内部处理的工作线程数；
+       TimeUnit.MILLISECONDS.sleep(800);
      watch?v=lJr_MKFT9OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=116
-     3. 关联 A调用B，B被限制，A也就被限制；
+     3. 关联 A调用B，B被限制，A也就被限制；设置A的关联控制，检查B的调用情况，如果B满足条件,就限流A；
      /watch?v=EKjVFkMPb2w&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=117
+     /watch?v=T1PROlROf0k&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=118
+     
+     流控结果：
+     1.Blocked by Sentinel (flow limiting)直接报错
+     com.alibaba.csp.sentinel.slots.block.flow.controller.DefaultController
+     2.Warm UP预热  coldFactor=3,  QPS=threshold/3开始，经过设定的预热时长才逐渐升至设定的QPS阈值。
+     com.alibaba.csp.sentinel.slots.block.flow.controller.WarmUpController
+     3.排队等待; 等待超时时间；  漏桶算法；
+      Log.info(Thread.currentThread().getName()+"\t"+"...testB");
 
+     降级规则：watch?v=DaQ_p2R2OY8&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=120
+     github.com/alibaba/Sentinel/wiki/熔断降级
+     1.RT, 如果在RT的值超过了设定时间，即请求处理时间在RT的时间内没有处理完成，那在下个时间窗口内，此API就被熔断，直接返回Blocked by Sentinel。
+、    @GetMapping("/testD")
+     public String testD(){
+        try{TimeUnit.SECONDS.sleep(1);}catch(InterruptedException e)
+        {e.printStackTrace();}
+        log.info("testD test RT");
+        return "------testD";
+     }
+     
+     2. 异常比例,  异常比例超出了设定的异常比例， 那在下一个时间窗口内，就熔断。
+      watch?v=DhauRvMvti0&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=122
+      log.inf("testD 异常比例");
+      int age = 10/0;
+     3. 异常数 ， 时间窗口一定要>60秒；
 
-
-  
+     ###Sentinel热点key： github.com/alibaba/Sentinel/wiki/
+     watch?v=gaI0JUKBFbc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=124 
+     HystrixCommand to @SentinelResource
+     com.alibaba.csp.sentinel.slots.block.BlockException
 
 
 # 19 Nacos clustor & Persistent Storage by nacos-mysql.sql
