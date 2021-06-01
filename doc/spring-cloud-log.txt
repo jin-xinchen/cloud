@@ -54,7 +54,7 @@
      management:endpoints:web:exposure:include: '*'
  
      java -jar sentinel-dashboard-1.7.0.jar
-     流控模式
+     ###流控规则 流控模式
      1.Blocked by Sentinel (flow limiting) QPS->单机阈值（每秒访问次数）->直接->快速失败； 
      2.线程数->单机阈值（每秒访问次数）->直接->快速失败； 限制内部处理的工作线程数；
        TimeUnit.MILLISECONDS.sleep(800);
@@ -71,10 +71,10 @@
      3.排队等待; 等待超时时间；  漏桶算法；
       Log.info(Thread.currentThread().getName()+"\t"+"...testB");
 
-     降级规则：watch?v=DaQ_p2R2OY8&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=120
+     ###降级规则：watch?v=DaQ_p2R2OY8&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=120
      github.com/alibaba/Sentinel/wiki/熔断降级
      1.RT, 如果在RT的值超过了设定时间，即请求处理时间在RT的时间内没有处理完成，那在下个时间窗口内，此API就被熔断，直接返回Blocked by Sentinel。
-、    @GetMapping("/testD")
+     @GetMapping("/testD")
      public String testD(){
         try{TimeUnit.SECONDS.sleep(1);}catch(InterruptedException e)
         {e.printStackTrace();}
@@ -87,12 +87,73 @@
       log.inf("testD 异常比例");
       int age = 10/0;
      3. 异常数 ， 时间窗口一定要>60秒；
+     @GetMapping("/testE")
+     public String testE(){
+        
+        log.info("testE test Exception number");
+        int age = 10/0;
+        return "------testE Exception number";
+     }
 
-     ###Sentinel热点key： github.com/alibaba/Sentinel/wiki/
+
+     ###Sentinel热点key： github.com/alibaba/Sentinel/wiki/   仅支持QPS；github.com/alibaba/Sentinel/wiki/热点参数限流
      watch?v=gaI0JUKBFbc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=124 
-     HystrixCommand to @SentinelResource
+     HystrixCommand to @SentinelResource 自定义限流提示 （参数例外项，热点参数必须是基本类型或String）
      com.alibaba.csp.sentinel.slots.block.BlockException
-
+    import com.alibaba.csp.sentinel.annotation.SentinelResource;
+    import com.alibaba.csp.sentinel.slots.block.BlockException;
+    @GetMapping("/testHotKey")
+    @SentinelResource(value="testHotKey",blockHandler = "deal_testHotKey")
+    public String testHotKey(@RequestParam(value="p1",required=false) String p1,
+                             @RequestParam(value="p2",required=false) String p2  ){
+        return "------testHotKey";
+    }
+    public String deal_testHotKey(String p1,String p2,BlockException exception){
+        return "------deal_testHotKey blockHandler";
+    }
+    cd C:\Users\Jinxxx\Downloads\springprojects\sentinel
+    java -jar sentinel-dashboard-1.8.1.jar 
+    /watch?v=4Wey7rVAcFg&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=126
+    ###系统规则： github.com/alibaba/Sentinel/wiki/系统自适应限流     
+     Load  整体限流
+    
+    从HystrixCommand到@SentinelResource
+    /watch?v=i800sXAG-UQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=128
+    按资源名称限流
+    <dependency>
+            <groupId>com.jin.springcloud</groupId>
+            <artifactId>cloud-api-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    @GetMapping("/rateLimit/byUrl")
+    @SentinelResource(value="byUrl")
+    public String byUrl(){
+        return "------byUrl";
+    }
+    watch?v=u87-7nTVnbw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=129
+    //CustomerBlockHandler
+    public class CustomerBlockHandler {
+      public static CommonResult handlerException(BlockException exception){
+          return new CommonResult(4444,"客户自定义，global handlerException---1");
+      }
+      public static CommonResult handlerException2(BlockException exception){
+          return new CommonResult(4444,"客户自定义，global handlerException---2");
+      }
+    }
+    //CustomerBlockHandler
+    @GetMapping("/rateLimit/customerBlockHandler")
+    @SentinelResource(value="customerBlockHandler",
+            blockHandlerClass = CustomerBlockHandler.class,
+            blockHandler = "handlerException2")
+    public CommonResult CustomerBlockHandler(){
+        return new CommonResult(200,"客户自定义",new Payment(2020L,"serial003"));
+    }
+    github.com/alibaba/Sentinel/wiki/介绍
+    cd C:\Users\Jinxxx\Downloads\springprojects\sentinel
+    java -jar sentinel-dashboard-1.8.1.jar  
+    localhost:8080 sentinel/sentinel
+    http://localhost:8401/rateLimit/customerBlockHandler
+ 
 
 # 19 Nacos clustor & Persistent Storage by nacos-mysql.sql
    ##19.1 layout

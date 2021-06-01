@@ -46,9 +46,15 @@ public class FollowLimitController {
     @SentinelResource(value="testHotKey",blockHandler = "deal_testHotKey")
     public String testHotKey(@RequestParam(value="p1",required=false) String p1,
                              @RequestParam(value="p2",required=false) String p2  ){
+//        int n = 10/0;
         return "------testHotKey";
     }
     public String deal_testHotKey(String p1, String p2, BlockException exception){
-        return "------deal_testHotKey blockHandler";
+        return "------deal_testHotKey blockHandler "+exception.getClass().getCanonicalName() + " invalid.";
+    }
+    @GetMapping("/followLimit/byUrl")
+    @SentinelResource(value="followLimitbyUrl")
+    public String byUrl(){
+        return "------followLimitbyUrl";
     }
 }

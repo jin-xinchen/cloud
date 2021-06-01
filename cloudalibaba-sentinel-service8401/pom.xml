@@ -25,6 +25,11 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.jin.springcloud</groupId>-->
+<!--            <artifactId>cloud-api-commons</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
         <!-- 持久化用到 -->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
