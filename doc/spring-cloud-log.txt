@@ -154,7 +154,68 @@
     localhost:8080 sentinel/sentinel
     http://localhost:8401/rateLimit/customerBlockHandler
  
+    watch?v=waPgYi6wfQI&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=130
+    cd C:\Users\Jinxxx\Downloads\springprojects\nacos\nacos-server-1.4.2\bin
+    https://www.programmersought.com/article/74436903789/
+    modify startup.cmd: rem set MODE="cluster"
+    set MODE="standalone"
+    startup.cmd
+    http://192.168.1.4:8848/nacos/index.html
 
+    84-》9003/9004
+    cloudalibaa-consumer-nacos-order84,cloudalibaba-provider-payment9003/9004
+    dependency:
+    1.,spring-cloud-starter-bootstrap, org.springframework.cloud (为使bootstrap.yml生效)
+
+    1.com.alibaba.cloud,spring-cloud-starter-alibaba-nacos-discovery
+    2.com.jin.springcloud,cloud-api-commons,${project.version}
+    3.org.springframework.boot,spring-boot-starter-web,
+    4.org.springframework.boot,spring-boot-starter-actuator
+    <!-- normal -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.3.5</version>
+        </dependency>
+    
+        //Ribbon
+        @Configuration
+        public class ApplicationContextConfig
+        {
+          @Bean
+          @LoadBalanced
+          public RestTemplate getRestTemplate(){
+            return new RestTemplate();
+         }
+        }
+        对@SentinelResource注解的属性修改，需要手动重启84服务。
+        fallback对应运行异常； blockHandler对应Sentinel设置违规；
+        watch?v=waPgYi6wfQI&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=131
+
+ 
 # 19 Nacos clustor & Persistent Storage by nacos-mysql.sql
    ##19.1 layout
     Require -> Nginx01...Nginx06 -> Nacos01...Nacos03 -> Mysql Clustor(Master&Slave)    
