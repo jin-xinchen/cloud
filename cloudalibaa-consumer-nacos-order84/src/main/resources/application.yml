@@ -11,6 +11,7 @@ spring:
     sentinel:
       transport:
         dashboard: localhost:8080
+        #default port is 8719. If 8719 is used, "port" will automatically increase 1.
         port: 8719
 
 service-url:
