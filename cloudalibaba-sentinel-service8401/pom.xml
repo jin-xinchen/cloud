@@ -26,6 +26,10 @@
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 <!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
 <!--            <groupId>com.jin.springcloud</groupId>-->
 <!--            <artifactId>cloud-api-commons</artifactId>-->
 <!--            <version>${project.version}</version>-->
