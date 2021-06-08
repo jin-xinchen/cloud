@@ -47,6 +47,7 @@
     <module>cloudalibaa-consumer-nacos-order84</module>
     <module>cloudalibaba-provider-payment9003</module>
     <module>cloudalibaba-provider-payment9004</module>
+    <module>cloudalibaa-consumer-feign-order84</module>
   </modules>
   <!-- Version -->
   <properties>

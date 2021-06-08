@@ -22,3 +22,14 @@ management:
     web:
       exposure:
         include: '*'
+
+#  //========= Does not work
+#feign:
+#  sentinel:
+#    enabled: true
+#  hystrix:
+#    enabled: true
+
+#ribbon:
+#  eureka:
+#    enabled: true

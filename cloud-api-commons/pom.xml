@@ -49,10 +49,5 @@
             <version>2.4</version>
             <scope>compile</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.jin.springcloud</groupId>-->
-<!--            <artifactId>cloud-providerconsul-payment8006</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
     </dependencies>
 </project>
