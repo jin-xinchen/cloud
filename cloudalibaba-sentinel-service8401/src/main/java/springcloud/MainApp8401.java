@@ -65,7 +65,10 @@ class SnowFlake {
     }
 
     /**
-     * 产生下一个ID
+     * 产生下一个ID  bigint in Mysql
+     * @TableId(type = IdType.ASSIGN_ID)
+     * private Long id;
+     * //com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator
      *
      * @return
      */
