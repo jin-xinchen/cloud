@@ -43,6 +43,6 @@ public class OrderServiceImpl implements OrderService {
         log.info("----->update status of the order");
         orderDao.update(order.getUserId(),0);
 
-        log.info("------>end of creating order");
+        log.info("------>end of creating order. OK!");
     }
 }

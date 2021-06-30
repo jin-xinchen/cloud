@@ -57,6 +57,6 @@ create table `lock_table` (
 );
 
 
-Create database seata_order;
-CREATE DATABASE seata_storage;
-CREATE DATABASE seata_account;
+Create database seata_order;    --tables: t_order,undo_log;(id,user_id,product_id,count,money,status)
+CREATE DATABASE seata_storage;  --tables: t_storage,undo_log;(id,product_id,total,used,residue)
+CREATE DATABASE seata_account;  --tables: t_account,undo_log;(id,user_id,total,used,residue)
