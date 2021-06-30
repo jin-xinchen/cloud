@@ -1,3 +1,122 @@
+# 22 https://github.com/zhouzhipeng/dubbo-beginner-demo
+    ES /watch?v=zNHDc2_-YOQ&list=PLmOn9nNkQxJFHUotFWLEDHUVF7N8mEY6D
+    id /watch?v=5GJ-VoZM1Ek&list=PLmOn9nNkQxJGoM5wAmvrumw3kNrfRPv_L&index=25
+    lidicity.com
+    /watch?v=USOM7AfVbHQ&list=PL-eCVzFY1qNKp1LbotiTxUkaKDmp8NQg9
+    private final static long START_STMP = 1480166465631L; //41 bits //2016-11-26 21:21:05
+    https://tool.lu/timestamp/ //1623990673000L; //2021-06-18 12:31:13
+    /watch?v=ue1zjvK0Yiw&list=PLmOn9nNkQxJGoM5wAmvrumw3kNrfRPv_L&index=27
+    ## mybatis
+    import org.apache.ibatis.annotations.Mapper; https://github.com/mybatis/mybatis-3/tree/master/src/site
+    https://blog.mybatis.org/p/products.html
+    seata mybits: Dao:    /watch?v=jo6uMqULrMY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=143
+    ## Error : 'DataSourceProxy' is abstract; cannot be instantiated;
+     /watch?v=jo6uMqULrMY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=144
+    seata-storage-service2002/watch?v=YtxruZMXVbo&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=145
+    1.seata-storage-service2002;2.POM;3.yml(mybatis.mapperLocations.classpath:mapper/*.xml);
+        4.file.conf;5.registry.conf;6.domain(entity==domain==dto==vo);
+        7.dao (@Mapper->resource/mapper->mybatis.mapperLocations.classpath:mapper/*.xml);
+        8.service $ implement; 9.Controller, 10.config; 11.SpringApplication.run().                           
+
+
+# 21 Seata distributed transaction solution.
+   GTS(Global Transaction Service) Partion tolerance  CAP 全局数据一致 
+   watch?v=PGWVBbY1OsM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=138
+   ## In file.conf
+   If mode = "file"
+     
+   If mode = "db"
+    url = "jdbc:mysql://127.0.0.1:3306/seata?rewriteBatchedStatements=true"
+    user = "mysql"
+    password = "mysql"
+    create a database "seata" in mysql.
+    sh seata-server.sh -p 8091 -h 127.0.0.1 -m file
+    cmd seata-server.bat
+    @GlobalTransactional 注解在业务方法上
+
+
+    ## In registry.conf
+     type = "nacos"
+     nacos {
+        serverAddr = "localhost:8848"
+        namespace = ""
+        cluster = "default"
+     }
+    http://seata.io/zh-cn/docs/user/quickstart.html
+    First start Nacos, then start Seata;
+    
+    ## 1. start Nacos;
+    startup.cmd
+    http://192.168.1.4:8848/nacos/index.html
+      2. start Seata;
+       cd C:\Users\JinXxxx\Downloads\springprojects\seata\seata-server-1.4.2\bin
+       seata-server.bat
+
+    ## Mysql
+     DROP DATABASE IF EXISTS seata; 
+     -- All new databases should use utf8mb4
+     CREATE DATABASE seata CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+    Create database seata_order;
+    CREATE DATABASE seata_storage;
+    CREATE DATABASE seata_account;
+       SEATA AT 模式需要 UNDO_LOG 表
+    -- 注意此处0.3.0+ 增加唯一索引 ux_undo_log
+    CREATE TABLE `undo_log` (
+      `id` bigint(20) NOT NULL AUTO_INCREMENT,
+      `branch_id` bigint(20) NOT NULL,
+      `xid` varchar(100) NOT NULL,
+      `context` varchar(128) NOT NULL,
+      `rollback_info` longblob NOT NULL,
+      `log_status` int(11) NOT NULL,
+      `log_created` datetime NOT NULL,
+      `log_modified` datetime NOT NULL,
+      `ext` varchar(100) DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+    DROP TABLE IF EXISTS `storage_tbl`;
+    CREATE TABLE `storage_tbl` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `commodity_code` varchar(255) DEFAULT NULL,
+      `count` int(11) DEFAULT 0,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY (`commodity_code`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    DROP TABLE IF EXISTS `order_tbl`;
+    CREATE TABLE `order_tbl` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `user_id` varchar(255) DEFAULT NULL,
+      `commodity_code` varchar(255) DEFAULT NULL,
+      `count` int(11) DEFAULT 0,
+      `money` int(11) DEFAULT 0,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+    DROP TABLE IF EXISTS `account_tbl`;
+    CREATE TABLE `account_tbl` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `user_id` varchar(255) DEFAULT NULL,
+      `money` int(11) DEFAULT 0,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+     /watch?v=cxzYBDboya0&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=142  
+     seata-order-service2001
+     entity==domain==dto==vo viewObject valueObject
+     https://github.com/seata/seata-samples/tree/master/seata-spring-boot-starter-samples
+     create order -> reduce store -> reduce balance -> change order status;
+     https://github.com/seata/seat/release
+     Distributed Transaction : @GlobalTransactional
+      @Transactional and @GlobalTransactional; TC, TM, RM; RPC;
+     seata.io/zh-cn/   and https://github.com/alibaba/druid 
+     file.conf : service and store;
+     DataWorks : https://help.aliyun.com/document_detail/113429.html?spm=a2c4g.11186623.2.5.4e466a4deXyAJj
+     
+
+
+   
 # 20 Sentinel - https://github.com/alibaba/Sentinel
    com.alibaba.csp.sentinel.slots.block.flow.controller.RateLimiter
    ##20.1 Sentinel vs Hystrix
@@ -58,7 +177,7 @@
      1.Blocked by Sentinel (flow limiting) QPS->单机阈值（每秒访问次数）->直接->快速失败； 
      2.线程数->单机阈值（每秒访问次数）->直接->快速失败； 限制内部处理的工作线程数；
        TimeUnit.MILLISECONDS.sleep(800);
-     watch?v=lJr_MKFT9OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=116
+     /watch?v=lJr_MKFT9OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=116
      3. 关联 A调用B，B被限制，A也就被限制；设置A的关联控制，检查B的调用情况，如果B满足条件,就限流A；
      /watch?v=EKjVFkMPb2w&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=117
      /watch?v=T1PROlROf0k&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=118
@@ -130,7 +249,7 @@
     public String byUrl(){
         return "------byUrl";
     }
-    watch?v=u87-7nTVnbw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=129
+    /watch?v=u87-7nTVnbw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=129
     //CustomerBlockHandler
     public class CustomerBlockHandler {
       public static CommonResult handlerException(BlockException exception){
