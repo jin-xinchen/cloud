@@ -14,9 +14,9 @@ public class SnowflakeIdWorker {
     //1625457600000L; //2021-07-05 12:00:00
     //https://tool.lu/timestamp/
     /** bits of workerId **/
-    private final long workerIdBits = 5L;
+    private final long workerIdBits = 3L;//5L;
     /** bits of datacenterId **/
-    private final long datacenterIdBits = 5L;
+    private final long datacenterIdBits = 7L;//5L;
     // /watch?v=aps_3FGQfSs&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=150
     /** the maximum of the worker's identify = 31 **/
     private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
@@ -84,7 +84,7 @@ public class SnowflakeIdWorker {
         return System.currentTimeMillis();
     }
     public static void main(String[] args) {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1,1);
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0,0);
         for(int i=0;i<10;i++){
             long id = idWorker.nextId();
             System.out.println(id+"\t"+String.valueOf(id).length());
