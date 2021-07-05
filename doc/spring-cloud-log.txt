@@ -1,3 +1,4 @@
+
 # 22 https://github.com/zhouzhipeng/dubbo-beginner-demo
     ES /watch?v=zNHDc2_-YOQ&list=PLmOn9nNkQxJFHUotFWLEDHUVF7N8mEY6D
     id /watch?v=5GJ-VoZM1Ek&list=PLmOn9nNkQxJGoM5wAmvrumw3kNrfRPv_L&index=25
@@ -18,8 +19,53 @@
         7.dao (@Mapper->resource/mapper->mybatis.mapperLocations.classpath:mapper/*.xml);
         8.service $ implement; 9.Controller, 10.config; 11.SpringApplication.run().                           
 
+    ## seata-account-service2003 
+       /watch?v=Xl7YA1lhFOw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=146
+        1.seata-account-service2003;2.POM;3.yml(mybatis.mapperLocations.classpath:mapper/*.xml);
+        4.file.conf;5.registry.conf;6.domain(entity==domain==dto==vo);
+        7.dao (@Mapper->resource/mapper->mybatis.mapperLocations.classpath:mapper/*.xml);
+        8.service $ implement; 9.Controller, 10.config; 11.SpringApplication.run().        
+
+    ## @GlobalTransactional
+      /watch?v=Srh-1J2hZDc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=147   
+       http://localhost:2001/order/create/?userId=1&productId=1&count=10&money=100
+       // @EnableFeignClients default waiting times is 1 second.
+         // Read timed out executing POST http://seata-account-service/account/decrease?userId=1&money=100
+         // Feign 超时时，有重试机制。
+       // try{TimeUnit.SECONDS.sleep(20);}catch (InterruptedException e){e.printStackTrace();}            
+
 
 # 21 Seata distributed transaction solution.
+    ## Simple Extensible Autonomous Transaction Architecture(SEATA)简单可扩展自治事务框架.
+    201901， 开源，v0.0.9版本不支持集群。
+    2020以后，产品环境需要SEATA v1.0.0-GA以上。 阿里云中为GTS服务（采用AT模式）。 
+    ## TC，TM，RM
+    TC： SEATA server side；  TM： 标有@GlobalTransactional为TM；事务的发起方； RM： 事务的参与方（单个数据库）；
+    ### UUID(Universally Unique Identifier) 
+    In its canonical textual representation, the 16 octets of a UUID are represented as 32 hexadecimal (base-16) digits, displayed in five groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters (32 hexadecimal characters and 4 hyphens)
+    全局唯一；趋势递增；单调递增；信息安全；含时间戳；高可用；低延迟；高QPS； 
+    ###MySQL
+    数据库的自增ID和mysql数据库的replace into实现的；
+    ：replace into 首先尝试插入数据列表中，如果发现表中已经有此行数据（根据主键和唯一索引判断），则先删除，而后插入，否则直接插入新记录。
+    ###Redis
+    ：Redis 6v之前是单线程，可以使用原子操作INCR和INCRBY来实现。注意：在Redis集群情况下，同样和MySQL一样需要设置不同的增长步长，同时key一定要设置有效期。
+    可以使用Redis集群来获取更高的吞吐量。假如一个集群中有5台Redis。可以初始化每台Redis的值分别是1，2，3，4，5，然后步长都是5。
+    各个Redis生成的ID为： A: 1,6,11,16,21; B: 2,7,12,17,22; C:3,8,13,18,23; D:4,9,14,19,24; E: 5,10,15,20,25;
+    ###snowflake
+    Twitter的分布式自增ID算法snowflake; 每秒能够产生26万个自增可排序的ID。
+       https://developer.twitter.com/en/docs/twitter-ids
+       https://github.com/twitter-archive/snowflake
+      1.twitter的Snowflake生成ID能够按照时间有序生成；
+      2.Twitter IDs are unique 64-bit unsigned integers, which are based on time, instead of being sequential.
+        （为一个Long型，转换为字符串后长度最多19） 
+      3.The full ID is composed of a timestamp, a worker number, and a sequence number.
+        （或由datacenter和workerId做区分） https://github.com/twitter-archive/snowflake
+         2^1 =  1bit符号位；固定为0，表示正数；
+         2^41 (365*24*60*60*1000L)=69.73年；（0--2^41-1）
+         2^10 =1024;(5bit datacenterId + 5bit workerId)
+         2^12*1000=409.6万；2^12-1=4095个Id序列号；毫秒内产生的Id。
+       在Java中64bit的整数是long类型，所以在SnowFlake算法生成的id就是long来存储的。
+
    GTS(Global Transaction Service) Partion tolerance  CAP 全局数据一致 
    watch?v=PGWVBbY1OsM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=138
    ## In file.conf
@@ -113,11 +159,10 @@
      seata.io/zh-cn/   and https://github.com/alibaba/druid 
      file.conf : service and store;
      DataWorks : https://help.aliyun.com/document_detail/113429.html?spm=a2c4g.11186623.2.5.4e466a4deXyAJj
-     
-
 
    
-# 20 Sentinel - https://github.com/alibaba/Sentinel
+# 20 Sentinel - https://github.com/alibaba/Sentinel  
+
    com.alibaba.csp.sentinel.slots.block.flow.controller.RateLimiter
    ##20.1 Sentinel vs Hystrix
      1.moniter system; 
