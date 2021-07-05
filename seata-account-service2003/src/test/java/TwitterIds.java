@@ -11,6 +11,14 @@ public class TwitterIds {
         date.setTime(time);
         System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(date)); //2039-09-07
         System.out.println(2039-1970);
+        System.out.println(date.getTime());
+        final long maxWorkerId = -1L ^ (-1L << 5L);
+        System.out.println(maxWorkerId);
+        System.out.println("111111111111".length());  // 12 bits
+        long sequence = 0b111111111111;//=0xFFF;
+        System.out.println(sequence);
+        final long sequenceMask = -1L ^ (-1L << 12L);
+        System.out.println(sequenceMask);
     }
 }
 class MainAppTEST {
