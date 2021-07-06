@@ -54,7 +54,8 @@
     ###snowflake
     Twitter的分布式自增ID算法snowflake; 每秒能够产生26万个自增可排序的ID。
        https://developer.twitter.com/en/docs/twitter-ids
-       https://github.com/twitter-archive/snowflake
+       https://github.com/twitter-archive/snowflake   
+       tool.lu/hexconvert
       1.twitter的Snowflake生成ID能够按照时间有序生成；
       2.Twitter IDs are unique 64-bit unsigned integers, which are based on time, instead of being sequential.
         （为一个Long型，转换为字符串后长度最多19） 
@@ -65,6 +66,19 @@
          2^10 =1024;(5bit datacenterId + 5bit workerId)
          2^12*1000=409.6万；2^12-1=4095个Id序列号；毫秒内产生的Id。
        在Java中64bit的整数是long类型，所以在SnowFlake算法生成的id就是long来存储的。
+     
+     ####hutool-captcha 	图片验证码实现
+     https://github.com/looly/hutool/ or https://github.com/dromara/hutool
+     hutool-captcha 	图片验证码实现
+     1.millisecond 毫秒在高位，自增序列在地位，整个ID是趋势递增。
+     2.不依赖数据库等第三方系统，以服务去方式部署，稳定性高，生成ID的性能也非常高。
+     3.可以根据自身业务特点分配bits位，比较灵活。
+     
+     1.依赖机器时钟，如果机器时钟回拨，会导致重复ID产生。
+     2.在单机上是递增的（趋势递增），但是由于涉及到分布式环境，每台机器上的时钟不可能完全同步，有时会出现不是全局递增的情况。
+     
+     ###UidGenerator 百度
+     ###Leaf 美团点评     
 
    GTS(Global Transaction Service) Partion tolerance  CAP 全局数据一致 
    watch?v=PGWVBbY1OsM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=138
