@@ -65,6 +65,9 @@ ADD COLUMN `gmt_modified` DATETIME NULL DEFAULT NULL AFTER `gmt_create`;
 ALTER TABLE `course_db`.`user`
 ADD COLUMN `version` BIGINT(20) NULL DEFAULT 1 AFTER `gmt_modified`;
 ###### https://github.com/kwhua/python_spider
+ALTER TABLE `course_db`.`user`
+ADD COLUMN `deleted` INT NULL DEFAULT 0 AFTER `version`;
+######
 #database
 use course_db;
 DELETE FROM course_1;

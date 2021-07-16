@@ -20,7 +20,10 @@ public class MybatisPlusDeleteTests {
     public void testDeleteById(){
         userMapper.deleteById(1416034839333216257L);
     }
-
+    @Test
+    public void testDeleteById02(){
+        userMapper.deleteById(1L);
+    }
     // 通过id批量删除
     @Test
     public void testDeleteBatchId(){
