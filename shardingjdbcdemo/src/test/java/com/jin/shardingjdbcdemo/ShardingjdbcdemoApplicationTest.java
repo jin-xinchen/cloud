@@ -22,6 +22,7 @@ public class ShardingjdbcdemoApplicationTest {
     @Test
     public void addCourse(){
         Course course = new Course();
+        //course.setCid(1L);
         course.setCname("java");
         course.setUserId(100L);
         course.setCstatus("Normal");

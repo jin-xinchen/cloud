@@ -22,6 +22,20 @@ CREATE TABLE course_2 (
   cstatus vARCHAR(10) NOT NULL
 )
 
+#database
+use course_db;
+DELETE FROM course_1;
+
+INSERT INTO course_1 (cid, cname, user_id, cstatus) VALUES
+(1, 'Jone', 18, 'test1'),
+(2, 'Jack', 20, 'test2'),
+(3, 'Tom', 28, 'test3'),
+(4, 'Sandy', 21, 'test4'),
+(5, 'Billie', 24, 'test5');
+
+select * from course_1;
+
+
 ## mysql 8
 ##https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-usagenotes-connect-drivermanager.html
 ###/watch?v=gAEAWFn-RdA&list=PLC_XkuSUhlb9wNrq8MJYPuiFAejZ0tZ55  catong
@@ -54,4 +68,10 @@ spring.shardingsphere.datasource.ds0.jdbc-url=jdbc:mysql://localhost:3306/ds0
 spring.shardingsphere.datasource.ds0.username=root
 spring.shardingsphere.datasource.ds0.password=
 
+# error handle 一个实体类Course对应两个表course_0和course_1引起的错误，错误描述如下：
+Description:
+The bean 'dataSource', defined in class path resource [org/apache/shardingsphere/shardingjdbc/spring/boot/SpringBootConfiguration.class], could not be registered. A bean with that name has already been defined in class path resource [com/alibaba/druid/spring/boot/autoconfigure/DruidDataSourceAutoConfigure.class] and overriding is disabled.
+Action:
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
 
+https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent
