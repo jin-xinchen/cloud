@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 //@KeySequence(value = "SEQ_ORACLE_STRING_KEY", clazz = String.class)
 //@KeySequence(value = "PostgreKeyGenerator")
 public class Cid {
-//    @TableId(type = IdType.AUTO)
-    //@TableId(value = "ID_STR", type = IdType.INPUT)
+//    @TableId(type = IdType00.AUTO)
+    //@TableId(value = "ID_STR", type = IdType00.INPUT)
     @TableId( type = IdType.INPUT)
     private Long cid;
     private String cname;
