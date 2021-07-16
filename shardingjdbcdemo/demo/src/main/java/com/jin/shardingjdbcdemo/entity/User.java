@@ -2,6 +2,7 @@ package com.jin.shardingjdbcdemo.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,6 @@ public class User {
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmt_modified;
+    @Version //乐观锁Version注解
+    private Integer version;
 }

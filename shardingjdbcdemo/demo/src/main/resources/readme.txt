@@ -61,8 +61,10 @@ ALTER TABLE `course_db`.`user`
 ADD COLUMN `gmt_create` DATETIME NULL DEFAULT NULL AFTER `email`,
 ADD COLUMN `gmt_modified` DATETIME NULL DEFAULT NULL AFTER `gmt_create`;
 
-######
-
+######乐观锁”，Optimistic Concurrency Control，缩写“OCC”
+ALTER TABLE `course_db`.`user`
+ADD COLUMN `version` BIGINT(20) NULL DEFAULT 1 AFTER `gmt_modified`;
+###### https://github.com/kwhua/python_spider
 #database
 use course_db;
 DELETE FROM course_1;
