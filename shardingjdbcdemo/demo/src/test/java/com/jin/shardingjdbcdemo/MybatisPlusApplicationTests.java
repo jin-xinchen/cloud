@@ -37,9 +37,9 @@ public class MybatisPlusApplicationTests {
     public void testUpdate(){
         User user = new User();
         // 通过条件自动拼接动态sql
-        user.setId(1415874365476171777L);
-        user.setName("kwhua_mybatis-plus_updateTest");
-        user.setAge(20);
+        user.setId(1416034839333216257L);
+        user.setName("MetaObjectHandler-");
+        user.setAge(21);
         // 注意：updateById 但是参数是一个对象！
         int i = userMapper.updateById(user);
         System.out.println(i);
