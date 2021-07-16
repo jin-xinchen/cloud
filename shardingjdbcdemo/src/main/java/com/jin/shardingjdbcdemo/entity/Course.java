@@ -1,4 +1,4 @@
-package entity;
+package com.jin.shardingjdbcdemo.entity;
 
 import lombok.Data;
 

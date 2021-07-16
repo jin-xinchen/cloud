@@ -15,14 +15,14 @@
      /watch?v=jo6uMqULrMY&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=144
     seata-storage-service2002/watch?v=YtxruZMXVbo&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=145
     1.seata-storage-service2002;2.POM;3.yml(mybatis.mapperLocations.classpath:mapper/*.xml);
-        4.file.conf;5.registry.conf;6.domain(entity==domain==dto==vo);
+        4.file.conf;5.registry.conf;6.domain(com.jin.shardingjdbcdemo.entity==domain==dto==vo);
         7.dao (@Mapper->resource/mapper->mybatis.mapperLocations.classpath:mapper/*.xml);
         8.service $ implement; 9.Controller, 10.config; 11.SpringApplication.run().                           
 
     ## seata-account-service2003 
        /watch?v=Xl7YA1lhFOw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=146
         1.seata-account-service2003;2.POM;3.yml(mybatis.mapperLocations.classpath:mapper/*.xml);
-        4.file.conf;5.registry.conf;6.domain(entity==domain==dto==vo);
+        4.file.conf;5.registry.conf;6.domain(com.jin.shardingjdbcdemo.entity==domain==dto==vo);
         7.dao (@Mapper->resource/mapper->mybatis.mapperLocations.classpath:mapper/*.xml);
         8.service $ implement; 9.Controller, 10.config; 11.SpringApplication.run().        
 
@@ -164,7 +164,7 @@
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
      /watch?v=cxzYBDboya0&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=142  
      seata-order-service2001
-     entity==domain==dto==vo viewObject valueObject
+     com.jin.shardingjdbcdemo.entity==domain==dto==vo viewObject valueObject
      https://github.com/seata/seata-samples/tree/master/seata-spring-boot-starter-samples
      create order -> reduce store -> reduce balance -> change order status;
      https://github.com/seata/seat/release
