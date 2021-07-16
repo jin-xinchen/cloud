@@ -1,6 +1,7 @@
 package com.jin.shardingjdbcdemo;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jin.shardingjdbcdemo.entity.User;
 import com.jin.shardingjdbcdemo.mapper.UserMapper;
@@ -53,5 +54,30 @@ public class MybatisSearchTest {
         userMapper.selectPage(page,null);
         page.getRecords().forEach(System.out::println);
         System.out.println(page.getTotal());
+    }
+    @Test
+    public void searchWhere() {
+        // 查询name不为空的用户，并且邮箱不为空的用户，年龄大于等于28
+        //SELECT id,name,age,email,gmt_create AS gmt_create,gmt_modified AS gmt_modified,version,deleted FROM user
+        // WHERE deleted=0 AND name IS NOT NULL AND email IS NOT NULL AND age >= ?
+        // WHERE
+        //        deleted=0
+        //        AND name IS NOT NULL
+        //        AND email IS NOT NULL
+        //        AND age >= ?
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper
+                .isNotNull("name") //不为空
+                .isNotNull("email")
+                .ge("age",28);
+        userMapper.selectList(wrapper).forEach(System.out::println); // 和我们刚才学习的map对比一下
+    }
+    @Test
+    public void test2(){
+        // 查询名字kwhua
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("name","Tom");
+        User user = userMapper.selectOne(wrapper); // 查询一个数据用selectOne，查询多个结果使用List 或者 Map
+        System.out.println(user);
     }
 }
