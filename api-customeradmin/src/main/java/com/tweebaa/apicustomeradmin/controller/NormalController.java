@@ -1,6 +1,8 @@
 package com.tweebaa.apicustomeradmin.controller;
 
 import com.tweebaa.apicustomeradmin.entity.UserA;
+import com.tweebaa.apicustomeradmin.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -16,6 +18,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/v3")
 public class NormalController {
+
+    @Autowired
+    private UserService userService;
     /**
      *GET：  http://api_url/api/v3/users/tmp_list?Pg=0&Nu=100
      * * 新增Pg和Nu两个参数： Pg表示当前页号，页号从0开始； Nu表示显示行数；
@@ -37,14 +42,8 @@ public class NormalController {
     public ResponseEntity<Object> validUsers(Model model, @RequestParam(value = "Pg",defaultValue = "0") int page, @RequestParam(value="Nu") int number)
     {
         try{
-            PageCustomers pageCustomers = new PageCustomers();
-            List<UserA> users = new ArrayList<UserA>();
-            UserA user1 = new UserA(1920024L,"2c99bb0a-b0ce-4057-9ef7-bbe415e1e1bc",
-     "tw1626604807000", "tw1626604807000",
-      "v2vdl1",
-     "avatarUrl");
-            users.add(user1);
-            pageCustomers.setList(users);
+            //UserService userService = new UserService();
+            PageCustomers pageCustomers = userService.receiveUsersJDBC(page,number);
             return new ResponseEntity<>(new ResponseEnvelope<PageCustomers>(200,pageCustomers), HttpStatus.OK);
 //            return new ResponseEntity<>(new ResponseEnvelope<String >(200, "test"), HttpStatus.OK);
 
