@@ -1,5 +1,6 @@
 package com.Test.apicustomeradmin.service.impl;
 
+import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.Test.apicustomeradmin.controller.PageCustomers;
 import com.Test.apicustomeradmin.entity.UserA;
 import com.Test.apicustomeradmin.service.UserService;
@@ -7,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,7 +54,8 @@ public class UserServiceImpl implements UserService {
             }
             username = env.getProperty("mssql.datasource.username");
             passW =  env.getProperty("mssql.datasource.password");
-            Conn= DriverManager.getConnection(conn,username,passW);
+            //Conn= DriverManager.getConnection(conn,username,passW);
+            Conn=getConnectionByDruid();
             Statement stmt=Conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             String sql1 = "select count(c.Id) from Customer as c inner join Store as s on s.Id = c.Store_Id and s.OwnerId = c.Id left join Download as d on d.id = c.ThumbnailAvatarDownloadId where CountryCallingCode is not null and PhoneNumber is not null and c.Deleted != 1";
             Conn.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
@@ -93,5 +99,97 @@ public class UserServiceImpl implements UserService {
             }
         }
         return pageCustomers;
+    }
+
+    /**
+     * druid.properties
+     * driverClassName=com.mysql.jdbc.Driver
+     * url=jdbc:mysql:///db2
+     * username=root
+     * password=root
+     * initialSize=5
+     * maxActive=10
+     * maxWait=3000
+     */
+    public Connection getConnectionByDruid1() throws Exception {
+        Properties pro = new Properties();
+        InputStream is = UserServiceImpl.class.getClassLoader().getResourceAsStream("druid.properties");
+        try {
+            pro.load(is);
+            DataSource ds = DruidDataSourceFactory.createDataSource(pro);
+            Connection con = ds.getConnection();
+            return con;
+        } catch (IOException e) {
+            throw e;
+        } catch (SQLException throwables) {
+            throw throwables;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    /**
+     * druid.properties
+     * driverClassName=com.mysql.jdbc.Driver
+     * url=jdbc:mysql:///db2
+     * username=root
+     * password=root
+     * initialSize=5
+     * maxActive=10
+     * maxWait=3000
+     */
+    public Connection getConnectionByDruid() throws Exception {
+        Properties pro = new Properties();
+        try {
+            pro=getPropertiesFromEnv();
+            //pro=getPropertiesFromFile();
+            DataSource ds = DruidDataSourceFactory.createDataSource(pro);
+            Connection con = ds.getConnection();
+            return con;
+        } catch (IOException e) {
+            throw e;
+        } catch (SQLException throwables) {
+            throw throwables;
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
+    private Properties getPropertiesFromFile() throws IOException {
+        Properties pro = new Properties();
+        InputStream is = UserServiceImpl.class.getClassLoader().getResourceAsStream("druid.properties");
+        pro.load(is);
+        return pro;
+    }
+
+    private Properties getPropertiesFromEnv() {
+        Properties pro = new Properties();
+        String driverClassName = env.getProperty("mssql.datasource.driver-class-name");
+        String url = env.getProperty("mssql.datasource.url");
+        String username = env.getProperty("mssql.datasource.username");
+        String password =  env.getProperty("mssql.datasource.password");
+        String initialSize=env.getProperty("druid.mssql.initialSize");
+        String maxActive=env.getProperty("druid.mssql.maxActive");
+        String maxWait=env.getProperty("druid.mssql.maxWait");
+        if( initialSize!= null && !initialSize.isEmpty())
+        {
+            initialSize = "0";
+        }
+        if( maxActive!= null && !maxActive.isEmpty())
+        {
+            maxActive = "2";
+        }
+        if( maxWait!= null && !maxWait.isEmpty())
+        {
+            maxWait = "3000";
+        }
+        pro.setProperty("driverClassName",driverClassName);
+        pro.setProperty("url",url);
+        pro.setProperty("username",username);
+        pro.setProperty("password",password);
+        pro.setProperty("initialSize",initialSize);
+        pro.setProperty("maxActive",maxActive);
+        pro.setProperty("maxWait",maxWait);
+        return pro;
     }
 }

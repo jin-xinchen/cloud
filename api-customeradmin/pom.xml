@@ -17,6 +17,18 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
+		<!-- https://github.com/alibaba/druid  https://github.com/lihengming 李恒名 89921218@qq.com
+		 https://mvnrepository.com/artifact/com.alibaba/druid -->
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba</groupId>-->
+<!--			<artifactId>druid-spring-boot-starter</artifactId>-->
+<!--			<version>1.1.20</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.2.5</version>
+		</dependency>
 		<!--for SqlServer-->
 		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
 		<dependency>
