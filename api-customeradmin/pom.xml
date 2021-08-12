@@ -18,7 +18,8 @@
 	</properties>
 	<dependencies>
 		<!-- https://github.com/alibaba/druid  https://github.com/lihengming 李恒名 89921218@qq.com
-		 https://mvnrepository.com/artifact/com.alibaba/druid -->
+		 https://mvnrepository.com/artifact/com.alibaba/druid
+		 https://druid.apache.org/  druid.io-->
 <!--		<dependency>-->
 <!--			<groupId>com.alibaba</groupId>-->
 <!--			<artifactId>druid-spring-boot-starter</artifactId>-->

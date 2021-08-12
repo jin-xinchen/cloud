@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
     private Environment env;
     @Override
-    public PageCustomers receiveUsersJDBC(int currPage, int pageSize) {
+    public PageCustomers receiveUsersJDBC(int currPage, int pageSize) throws Exception {
         int pagesize =pageSize;
         int pageNow = currPage;
         PageCustomers pageCustomers = new PageCustomers();
@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
         }
         catch(Exception e){
             //e.printStackTrace();
+            throw e;
         }
         finally {
             if(Conn!=null){
@@ -99,6 +100,38 @@ public class UserServiceImpl implements UserService {
             }
         }
         return pageCustomers;
+    }
+
+    @Override
+    public Integer countOfValidUsers() throws Exception {
+        Integer count =0;
+        Connection Conn=null;
+        try{
+            Conn=getConnectionByDruid();
+            Statement stmt=Conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            String sql1 = "select count(c.Id) from Customer as c inner join Store as s on s.Id = c.Store_Id and s.OwnerId = c.Id left join Download as d on d.id = c.ThumbnailAvatarDownloadId where CountryCallingCode is not null and PhoneNumber is not null and c.Deleted != 1";
+            Conn.prepareStatement(sql1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs=stmt.executeQuery(sql1);
+            if(rs.first()){
+                count = rs.getInt(1);
+            }
+            rs.close();
+            stmt.close();
+            Conn.close();
+        }
+        catch(Exception e){
+            throw e;
+        }
+        finally {
+            if(Conn!=null){
+                try {
+                    Conn.close();
+                } catch (SQLException throwables) {
+                    //throwables.printStackTrace();
+                }
+            }
+        }
+        return count;
     }
 
     /**

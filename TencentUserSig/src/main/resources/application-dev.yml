@@ -1,0 +1,21 @@
+server:
+  port: 6869
+
+spring:
+  application:
+    name: tweebaa-tencent-servic-dev
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.101.219.248:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+
+tbConfig:
+  sdkAppId: 1600524662
+  secretKey: 42f2167fa79b9bf8ec22c9ea7a1d9ea70fa6a78be421118151b0bb31f3775c28
+  expire: 604800
+
+#6,4互换

@@ -1,0 +1,20 @@
+server:
+  port: 6869
+
+spring:
+  application:
+    name: tweebaa-tencent-servic
+  profiles:
+    active: dev
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.101.219.248:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+
+tbConfig:
+  expire: 604800
+

@@ -1,18 +1,17 @@
 package com.tweebaa.apicustomeradmin.controller;
 
-import com.tweebaa.apicustomeradmin.entity.UserA;
 import com.tweebaa.apicustomeradmin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,14 +38,34 @@ public class NormalController {
      * @return
      */
     @RequestMapping(value = "/users/tmp_list", method = RequestMethod.GET)
-    public ResponseEntity<Object> validUsers(Model model, @RequestParam(value = "Pg",defaultValue = "0") int page, @RequestParam(value="Nu") int number)
+    public ResponseEntity<Object> validUsers(Model model, @RequestParam(value = "Pg",defaultValue = "0") int page, @RequestParam(value="Nu",defaultValue = "0") int number)
     {
         try{
-            //UserService userService = new UserService();
+            if(number>100){
+                return new ResponseEntity<>("Nu must be less 100", HttpStatus.BAD_REQUEST);
+            }
+            if(number<=0){
+                return new ResponseEntity<>("Nu must be greater 0", HttpStatus.BAD_REQUEST);
+            }
             PageCustomers pageCustomers = userService.receiveUsersJDBC(page,number);
-            return new ResponseEntity<>(new ResponseEnvelope<PageCustomers>(200,pageCustomers), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseEnvelope<PageCustomers>(0,pageCustomers), HttpStatus.OK);
 //            return new ResponseEntity<>(new ResponseEnvelope<String >(200, "test"), HttpStatus.OK);
 
+        }catch (HttpClientErrorException e){
+            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @RequestMapping(value="/users/tmp_count",method=RequestMethod.GET)
+    public ResponseEntity<Object> countOfValidUsers(Model model)
+    {
+        try{
+            Integer count = userService.countOfValidUsers();
+            String str = "{\"Code\":0,\"Data\":{\"count\":"+count+"}}";
+            MultiValueMap<String, String> mVMap = new LinkedMultiValueMap<String, String>();
+            mVMap.add("Content-Type","application/json");
+            return new ResponseEntity<>(str,mVMap, HttpStatus.OK);
         }catch (HttpClientErrorException e){
             return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         }catch(Exception e){
