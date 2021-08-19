@@ -1,6 +1,7 @@
 package com.Test.apicustomeradmin.service.impl;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.alibaba.druid.proxy.DruidDriver;
 import com.Test.apicustomeradmin.controller.PageCustomers;
 import com.Test.apicustomeradmin.entity.UserA;
 import com.Test.apicustomeradmin.service.UserService;
@@ -23,6 +24,8 @@ public class UserServiceImpl implements UserService {
         env = pEnv;
     }
     private Environment env;
+
+    private static DataSource dSInstance = null;
     @Override
     public PageCustomers receiveUsersJDBC(int currPage, int pageSize) throws Exception {
         int pagesize =pageSize;
@@ -171,12 +174,20 @@ public class UserServiceImpl implements UserService {
      * maxWait=3000
      */
     public Connection getConnectionByDruid() throws Exception {
-        Properties pro = new Properties();
         try {
-            pro=getPropertiesFromEnv();
-            //pro=getPropertiesFromFile();
-            DataSource ds = DruidDataSourceFactory.createDataSource(pro);
-            Connection con = ds.getConnection();
+            //DataSource ds = DruidDataSourceFactory.createDataSource(pro);
+            if(dSInstance==null){
+                Properties pro = new Properties();
+                pro=getPropertiesFromEnv();
+                //pro=getPropertiesFromFile();
+                try {
+                    dSInstance = DruidDataSourceFactory.createDataSource(pro);
+                }catch (Exception e){
+                    dSInstance = null;
+                    throw e;
+                }
+            }
+            Connection con = dSInstance.getConnection();
             return con;
         } catch (IOException e) {
             throw e;
@@ -204,15 +215,15 @@ public class UserServiceImpl implements UserService {
         String initialSize=env.getProperty("druid.mssql.initialSize");
         String maxActive=env.getProperty("druid.mssql.maxActive");
         String maxWait=env.getProperty("druid.mssql.maxWait");
-        if( initialSize!= null && !initialSize.isEmpty())
+        if( initialSize== null && !initialSize.isEmpty())
         {
             initialSize = "0";
         }
-        if( maxActive!= null && !maxActive.isEmpty())
+        if( maxActive== null && !maxActive.isEmpty())
         {
             maxActive = "2";
         }
-        if( maxWait!= null && !maxWait.isEmpty())
+        if( maxWait== null && !maxWait.isEmpty())
         {
             maxWait = "3000";
         }
